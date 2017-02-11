@@ -39,7 +39,8 @@ function RDBPool(config) {
   } 
 
   var check = function checkRethinkClient(client, cb) {
-    //TODO check clients health and return an err if needed
+    if (!client.isOpen()) 
+      return cb(new Error());
     cb(null);
   }
 
