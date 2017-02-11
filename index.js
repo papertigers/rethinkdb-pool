@@ -32,8 +32,10 @@ function RDBPool(config) {
   var destroy = function destroyRethinkClient(client) {
     client._was = client._id;
     client._id = -1;
-    //TODO check what errors occur on close
-    client.close();
+    client.close(function closeRethinkConnection(err) {
+      // Crash hard if a connection fails to close for some reason
+      assert.ifError(err)
+    });
   } 
 
   var check = function checkRethinkClient(client, cb) {
