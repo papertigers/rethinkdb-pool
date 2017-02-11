@@ -1,0 +1,28 @@
+{
+  "name": "rethinkdb-pool",
+  "version": "1.0.0",
+  "description": "A connection pool for rethinkdb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/papertigers/rethinkdb-pool.git"
+  },
+  "keywords": [
+    "rethinkdb",
+    "pool"
+  ],
+  "author": "Mike Zeller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/papertigers/rethinkdb-pool/issues"
+  },
+  "homepage": "https://github.com/papertigers/rethinkdb-pool#readme",
+  "dependencies": {
+    "assert-plus": "^1.0.0",
+    "pooling": "^0.4.6",
+    "rethinkdb": "^2.3.3"
+  }
+}
