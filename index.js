@@ -70,7 +70,6 @@ RDBPool.prototype.run = function runQuery(query, opts, cb) {
   self._getClient(function aquireClient(err, client) {
     if (err)
       return cb(err, null);
-    console.log(client);
     query.run(client, opts, function queryResultsCallback(err, cursor) {
       if (err) {
         cb(err, null);
