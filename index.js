@@ -67,6 +67,10 @@ RDBPool.prototype._getClient = function _getClient(cb) {
 // ---------------- public funcitons ---------------------
 RDBPool.prototype.run = function runQuery(query, opts, cb) {
   var self = this;
+  if (opts instanceof Function) {
+    cb = opts;
+    opts = null;
+  }
   self._getClient(function aquireClient(err, client) {
     if (err)
       return cb(err, null);

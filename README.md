@@ -24,7 +24,7 @@ var pool = new rdbpool(config);
 
 var query = r.table('foo').limit(10)
 
-pool.run(query, null, function(err, cursor) {
+pool.run(query, function(err, cursor) {
   if (err) throw err;
   cursor.toArray(function(err, results) {
     if (err) throw err;
