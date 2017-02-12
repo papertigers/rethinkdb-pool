@@ -86,9 +86,6 @@ RDBPool.prototype.run = function runQuery(query, opts, cb) {
       return ([client._id]);
     });
     query.run(client, opts, function queryResultsCallback(err, cursor) {
-      dtrace['query-finish'].fire(function (){
-        return ([client._id]);
-      });
       if (err) {
         dtrace['query-error'].fire(function (){
           return ([client._id]);
@@ -96,6 +93,9 @@ RDBPool.prototype.run = function runQuery(query, opts, cb) {
         cb(err, null);
         return self.pool.release(client);
       }
+      dtrace['query-finish'].fire(function (){
+        return ([client._id]);
+      });
       cb(null, cursor); 
       self.pool.release(client);
     }); 
