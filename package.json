@@ -22,6 +22,7 @@
   "homepage": "https://github.com/papertigers/rethinkdb-pool#readme",
   "dependencies": {
     "assert-plus": "^1.0.0",
+    "dtrace-provider": "^0.8.0",
     "pooling": "^0.4.6",
     "rethinkdb": "^2.3.3"
   }

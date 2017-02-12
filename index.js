@@ -1,4 +1,5 @@
 var assert = require('assert-plus');
+var dtrace = require('./libs/dtrace');
 var pooling = require('pooling');
 var r = require('rethinkdb');
 
@@ -25,6 +26,9 @@ function RDBPool(config) {
       if (++CLIENT_ID >= 4294967295) // 2^32 -1
         CLIENT_ID = 1;
       client._id = CLIENT_ID;
+      dtrace['pool-create-client'].fire(function (){
+        return ([client._id]);
+      });
       cb(null, client);
     });
   }
@@ -35,6 +39,9 @@ function RDBPool(config) {
     client.close(function closeRethinkConnection(err) {
       // Crash hard if a connection fails to close for some reason
       assert.ifError(err)
+      dtrace['pool-destroy-client'].fire(function (){
+        return ([client._was]);
+      });
     });
   } 
 
@@ -75,8 +82,17 @@ RDBPool.prototype.run = function runQuery(query, opts, cb) {
   self._getClient(function aquireClient(err, client) {
     if (err)
       return cb(err, null);
+    dtrace['query-start'].fire(function (){
+      return ([client._id]);
+    });
     query.run(client, opts, function queryResultsCallback(err, cursor) {
+      dtrace['query-finish'].fire(function (){
+        return ([client._id]);
+      });
       if (err) {
+        dtrace['query-error'].fire(function (){
+          return ([client._id]);
+        });
         cb(err, null);
         return self.pool.release(client);
       }
